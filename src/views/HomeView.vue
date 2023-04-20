@@ -1,18 +1,20 @@
+<script setup>
+import theHeader from '../components/layout/the-header.vue'
+</script>
+
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+  <div class="wrapper">
+    <header>
+      <the-header />
+    </header>
+    <main>main</main>
   </div>
 </template>
 
-<script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
-
-export default {
-  name: "HomeView",
-  components: {
-    HelloWorld,
-  },
-};
-</script>
+<style scoped>
+.wrapper {
+  width: 1100px;
+  max-width: 95vw;
+  margin: 0 auto;
+}
+</style>
