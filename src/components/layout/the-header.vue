@@ -10,7 +10,7 @@ import vTitle from '../text/v-title.vue'
       <app-logo />
     </div>
     <div class="user">
-      <v-title>/ Oleksandr Petrushyn</v-title>
+      <v-title>Oleksandr Petrushyn</v-title>
     </div>
     <div class="logout">
       <v-button thin>Ausloggen</v-button>
@@ -22,7 +22,11 @@ import vTitle from '../text/v-title.vue'
 .header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   font-size: 32px;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--text-light);
 }
 .header .logo {
   margin-right: 0.2em;

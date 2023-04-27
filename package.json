@@ -11,9 +11,10 @@
   },
   "dependencies": {
     "pinia": "^2.0.32",
+    "uuid": "^9.0.0",
     "vue": "^3.2.47",
-    "vue-functional-calendar": "^2.9.97",
-    "vue-router": "^4.1.6"
+    "vue-router": "^4.1.6",
+    "vuejs3-datepicker": "^1.0.16"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.2.0",
@@ -22,6 +23,8 @@
     "eslint": "^8.34.0",
     "eslint-plugin-vue": "^9.9.0",
     "prettier": "^2.8.4",
+    "sass": "^1.62.0",
+    "sass-loader": "^13.2.2",
     "vite": "^4.1.4"
   }
 }

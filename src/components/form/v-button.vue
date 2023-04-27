@@ -1,12 +1,13 @@
 <script setup>
 const props = defineProps({
   primary: Boolean,
-  thin: Boolean
+  thin: Boolean,
+  danger: Boolean
 })
 </script>
 
 <template>
-  <button :class="{ primary, thin }">
+  <button :class="{ primary, thin, danger }">
     <slot></slot>
   </button>
 </template>
@@ -44,5 +45,13 @@ button.primary.thin {
   border: 1px solid var(--accent);
   color: var(--accent);
   background-color: transparent;
+}
+button.danger {
+  border-color: var(--danger) !important;
+  color: var(--danger) !important;
+}
+button.danger:hover {
+  background-color: var(--danger) !important;
+  color: var(--white) !important;
 }
 </style>
