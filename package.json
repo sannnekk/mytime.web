@@ -1,7 +1,11 @@
 {
   "name": "mytime",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
+  "author": {
+    "name": "sannnekk",
+    "url": "https://alexander.net.ua"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",

@@ -3,14 +3,25 @@ import { defineStore } from 'pinia'
 import { v4 as uuid } from 'uuid'
 import { useUtilsStore } from './utils'
 
+/**
+ * Main app store to handle working hours data
+ */
 export const useTimeStore = defineStore('time', () => {
-  // import utility functions from utils store
+  /**
+   * Util functions store
+   */
   const utils = useUtilsStore()
 
-  // currentDate is a reactive ref to the current date hours object from hours array
+  /**
+   * Ref to the current date hours object from hours array
+   */
   const currentDate = ref(new Date())
 
-  // getSample is a function that returns a sample day state that doesn't exist in hours array
+  /**
+   * Function that returns a sample day state that doesn't exist in hours array
+   *
+   * @returns {Object} - sample day state
+   */
   function getSample() {
     return {
       id: uuid(),
@@ -26,8 +37,10 @@ export const useTimeStore = defineStore('time', () => {
       projects: []
     }
   }
-  
-  // current is a computed property that returns the current day state
+
+  /**
+   * Current is a computed property that returns the current day state
+   */
   const current = computed({
     get: () => {
       const _current = hours.find((item) => _isSameDay(item.date, currentDate.value))
@@ -42,7 +55,7 @@ export const useTimeStore = defineStore('time', () => {
 
         return _current
       }
-        
+
       const sample = getSample()
       hours.push(sample)
 
@@ -51,15 +64,14 @@ export const useTimeStore = defineStore('time', () => {
     set: (value) => {
       const index = hours.findIndex((item) => _isSameDay(item.date, currentDate.value))
 
-      if (index !== -1) 
-        hours[index] = value
-      else 
-        hours.push(value)
-      
+      if (index !== -1) hours[index] = value
+      else hours.push(value)
     }
   })
 
-  // hours is a reactive array of days states
+  /**
+   * The data we are working with
+   */
   const hours = reactive([
     {
       id: uuid(),
@@ -91,14 +103,33 @@ export const useTimeStore = defineStore('time', () => {
     }
   ])
 
+  /**
+   * Check if the day is a vocation
+   *
+   * @param {Date} date
+   * @returns {Boolean}
+   */
   function isVocation(date) {
     return hours.find((item) => _isSameDay(item.date, date))?.isVocation || false
   }
 
+  /**
+   * Check if on this day worker is not present
+   *
+   * @param {Date} date
+   * @returns {Boolean}
+   */
   function isNotPresent(date) {
     return hours.find((item) => _isSameDay(item.date, date))?.isNotPresent || false
   }
-  
+
+  /**
+   * Get hours from day in format HH:MM
+   * (with no leading yero in hours and with no minutes if they equal 00)
+   *
+   * @param {Date} date
+   * @returns {String}
+   */
   function getHours(date) {
     const _hours = hours.find((item) => _isSameDay(item.date, date))?.hours
 
@@ -107,10 +138,20 @@ export const useTimeStore = defineStore('time', () => {
     return utils.beautifyShortTime(utils.timeToDate(_hours))
   }
 
+  /**
+   * Check if two date objects are the same day.
+   * Local, not ment to be used outside of this store
+   *
+   * @param {Date} d1
+   * @param {Date} d2
+   * @returns {Boolean}
+   */
   function _isSameDay(d1, d2) {
-    return d1.getFullYear() === d2.getFullYear() &&
+    return (
+      d1.getFullYear() === d2.getFullYear() &&
       d1.getMonth() === d2.getMonth() &&
       d1.getDate() === d2.getDate()
+    )
   }
 
   return { current, currentDate, hours, isVocation, isNotPresent, getHours }

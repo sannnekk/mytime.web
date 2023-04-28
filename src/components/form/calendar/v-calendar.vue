@@ -28,6 +28,7 @@ function getDayHours({ date, timestamp }) {
 <template>
   <div class="calendar">
     <datepicker
+      :disabled="false"
       :inline="true"
       :monday-first="true"
       language="de"
