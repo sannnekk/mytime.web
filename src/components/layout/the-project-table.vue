@@ -1,6 +1,7 @@
 <script setup>
 import vInlineInput from '@/components/form/v-inline-input.vue'
 import vButton from '@/components/form/v-button.vue'
+import vTitle from '@/components/text/v-title.vue'
 import { computed } from 'vue'
 
 const props = defineProps({
@@ -30,6 +31,9 @@ function onRemoveProject(index) {
 
 <template>
   <div class="project-table">
+    <div class="title">
+      <v-title small>Projekte</v-title>
+    </div>
     <table>
       <thead>
         <tr>
@@ -77,7 +81,7 @@ function onRemoveProject(index) {
               danger
               @click="onRemoveProject(index)"
             >
-              delete
+              Löschen
             </v-button>
           </td>
         </tr>

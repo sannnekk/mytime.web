@@ -2,6 +2,9 @@
 import appLogo from '../app-logo.vue'
 import vButton from '../form/v-button.vue'
 import vTitle from '../text/v-title.vue'
+import { useUserStore } from '../../stores/user'
+
+const userStore = useUserStore()
 </script>
 
 <template>
@@ -13,7 +16,11 @@ import vTitle from '../text/v-title.vue'
       <v-title>Oleksandr Petrushyn</v-title>
     </div>
     <div class="logout">
-      <v-button thin>Ausloggen</v-button>
+      <v-button
+        thin
+        @click="userStore.logout()"
+        >Ausloggen</v-button
+      >
     </div>
   </div>
 </template>

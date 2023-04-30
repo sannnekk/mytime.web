@@ -65,9 +65,6 @@ const state = computed({
         disabled
       />
     </div>
-    <div class="title">
-      <v-title small>Projekte</v-title>
-    </div>
   </div>
 </template>
 

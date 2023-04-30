@@ -47,7 +47,7 @@ export const useTimeStore = defineStore('time', () => {
 
       if (_current) {
         // get hours
-        _current.hours = utils.getDayHours(_current.start, _current.end)
+        _current.hours = utils.getDayHours(_current.start, _current.end, _current.break)
         _current.hours = utils.beutifyTime(_current.hours)
 
         // get minimal break

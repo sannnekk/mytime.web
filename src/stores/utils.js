@@ -39,14 +39,18 @@ export const useUtilsStore = defineStore('utils', () => {
    *
    * @param {string} h1 - first Date as string
    * @param {string} h2 - second Date as string
+   * @param {string} br - break time as string
    * @return {Date} - difference between two dates
    */
-  function getDayHours(h1, h2) {
+  function getDayHours(h1, h2, br) {
     const d1 = timeToDate(h1)
     const d2 = timeToDate(h2)
+    const d3 = timeToDate(br)
+
+    const d = d2.getTime() - d1.getTime() - d3.getTime() - 3600000
 
     // subtract 1 hour to get the correct time difference because of fucking unix standard
-    return new Date(d2.getTime() - d1.getTime() - 3600000)
+    return new Date(d < 0 ? 0 : d)
   }
 
   /**

@@ -1,14 +1,23 @@
 <script setup>
+import vLoader from '../utils/v-loader.vue'
+
 const props = defineProps({
   primary: Boolean,
   thin: Boolean,
-  danger: Boolean
+  danger: Boolean,
+  loading: Boolean
 })
 </script>
 
 <template>
   <button :class="{ primary, thin, danger }">
-    <slot></slot>
+    <v-loader
+      class="loader"
+      v-if="loading"
+    />
+    <span>
+      <slot></slot>
+    </span>
   </button>
 </template>
 
@@ -21,7 +30,11 @@ button {
   padding: 1em;
   color: var(--white);
   cursor: pointer;
-  font-weight: bold;
+  font-weight: bolder;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 button:hover {
   background-color: var(--text);
@@ -53,5 +66,9 @@ button.danger {
 button.danger:hover {
   background-color: var(--danger) !important;
   color: var(--white) !important;
+}
+button .loader {
+  height: 1.4em;
+  margin-right: 0.6em;
 }
 </style>
