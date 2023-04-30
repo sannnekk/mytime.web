@@ -18,8 +18,13 @@ function getDayHours({ date, timestamp }) {
     cellContent += `<span class="hours not-present">A</span>`
   else if (props.isVocationFunction(dateObject))
     cellContent += `<span class="hours vocation">U</span>`
-  else if (props.getHoursFunction(dateObject) && props.getHoursFunction(dateObject) !== '0')
-    cellContent += `<span class="hours">${props.getHoursFunction(dateObject)} h</span>`
+  else if (
+    props.getHoursFunction(dateObject) &&
+    props.getHoursFunction(dateObject) !== '0'
+  )
+    cellContent += `<span class="hours">${props.getHoursFunction(
+      dateObject
+    )} h</span>`
 
   return cellContent
 }

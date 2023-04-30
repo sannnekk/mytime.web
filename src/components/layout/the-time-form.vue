@@ -37,12 +37,14 @@ const state = computed({
         type="time"
         label="Ende"
         v-model="state.end"
+        :is-error="state.isEndTimeError"
       />
       <v-input
         type="time"
         label="Pause"
         v-model="state.break"
         :min="state.minBreak"
+        :is-error="state.isPauseError"
       />
     </div>
     <div class="row">

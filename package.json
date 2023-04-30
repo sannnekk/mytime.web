@@ -7,6 +7,7 @@
     "url": "https://alexander.net.ua"
   },
   "scripts": {
+    "commit": "npm run format && git commit -a -m \"$1\" && git push",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",

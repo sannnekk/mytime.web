@@ -29,7 +29,7 @@ const router = createRouter({
  */
 router.beforeEach((to, from) => {
   if (to.path === '/auth') return
-  
+
   const { isAuthenticated } = useUserStore()
   return isAuthenticated || '/auth'
 })

@@ -43,26 +43,18 @@ export const useTimeStore = defineStore('time', () => {
    */
   const current = computed({
     get: () => {
-      const _current = hours.find((item) => _isSameDay(item.date, currentDate.value))
+      const _current = hours.find((item) =>
+        _isSameDay(item.date, currentDate.value)
+      )
 
-      if (_current) {
-        // get hours
-        _current.hours = utils.getDayHours(_current.start, _current.end, _current.break)
-        _current.hours = utils.beutifyTime(_current.hours)
-
-        // get minimal break
-        _current.minBreak = utils.getMinimalBreak(_current.hours)
-
-        return _current
-      }
-
-      const sample = getSample()
-      hours.push(sample)
+      if (_current) return _current
 
       return sample
     },
     set: (value) => {
-      const index = hours.findIndex((item) => _isSameDay(item.date, currentDate.value))
+      const index = hours.findIndex((item) =>
+        _isSameDay(item.date, currentDate.value)
+      )
 
       if (index !== -1) hours[index] = value
       else hours.push(value)
@@ -110,7 +102,9 @@ export const useTimeStore = defineStore('time', () => {
    * @returns {Boolean}
    */
   function isVocation(date) {
-    return hours.find((item) => _isSameDay(item.date, date))?.isVocation || false
+    return (
+      hours.find((item) => _isSameDay(item.date, date))?.isVocation || false
+    )
   }
 
   /**
@@ -120,7 +114,9 @@ export const useTimeStore = defineStore('time', () => {
    * @returns {Boolean}
    */
   function isNotPresent(date) {
-    return hours.find((item) => _isSameDay(item.date, date))?.isNotPresent || false
+    return (
+      hours.find((item) => _isSameDay(item.date, date))?.isNotPresent || false
+    )
   }
 
   /**

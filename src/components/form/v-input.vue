@@ -5,7 +5,8 @@ const props = defineProps({
   modelValue: String,
   label: String,
   disabled: Boolean,
-  min: String
+  min: String,
+  isError: Boolean
 })
 const emits = defineEmits(['update:modelValue'])
 </script>
@@ -14,6 +15,7 @@ const emits = defineEmits(['update:modelValue'])
   <div class="group">
     <label>{{ label }}</label>
     <input
+      :class="{ error: isError }"
       :type="type"
       :placeholder="placeholder"
       :value="modelValue"
@@ -37,6 +39,10 @@ const emits = defineEmits(['update:modelValue'])
   border: var(--border);
   padding: 0.7em;
   width: 100%;
+}
+.group input.error {
+  border-color: var(--danger);
+  color: var(--danger);
 }
 .group input:focus {
   border-color: var(--accent);

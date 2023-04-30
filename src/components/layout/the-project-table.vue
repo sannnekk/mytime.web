@@ -129,8 +129,9 @@ td.project-part-col input {
   width: 80px;
 }
 td.actions button {
-  padding: 0.3em;
+  padding: 0.7em 1em;
   width: 100%;
+  font-size: 0.7em;
 }
 .new-button {
   margin-top: 1em;

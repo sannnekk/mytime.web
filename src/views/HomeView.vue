@@ -17,7 +17,6 @@ const timeStore = useTimeStore()
       <div class="calendar">
         <v-calendar
           v-model="timeStore.currentDate"
-          hours="timeStore.hours"
           :isNotPresentFunction="timeStore.isNotPresent"
           :isVocationFunction="timeStore.isVocation"
           :getHoursFunction="timeStore.getHours"
@@ -47,7 +46,7 @@ header {
 main {
   display: grid;
   grid-template-columns: 300px auto;
-  grid-template-rows: auto auto;
+  grid-template-rows: auto;
 }
 main .calendar {
   grid-column: 1;
@@ -57,5 +56,10 @@ main .form {
   grid-row: 1;
   grid-column: 2;
   margin-left: 2rem;
+}
+@media screen and (max-width: 800px) {
+  main {
+    display: block;
+  }
 }
 </style>
