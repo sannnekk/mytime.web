@@ -27,7 +27,7 @@ const router = createRouter({
 /**
  * Check if user is authenticated
  */
-router.beforeEach((to, from) => {
+router.beforeEach((to) => {
   if (to.path === '/auth') return
 
   const { isAuthenticated } = useUserStore()

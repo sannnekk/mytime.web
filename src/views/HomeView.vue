@@ -1,9 +1,10 @@
 <script setup>
-import theHeader from '@/components/layout/the-header.vue'
-import vCalendar from '@/components/form/calendar/v-calendar.vue'
-import theTimeForm from '@/components/layout/the-time-form.vue'
-import theProjectTable from '@/components/layout/the-project-table.vue'
-import { useTimeStore } from '@/stores/hours'
+import theHeader from '../components/layout/the-header.vue'
+import vCalendar from '../components/form/calendar/v-calendar.vue'
+import theTimeForm from '../components/layout/the-time-form.vue'
+import theProjectTable from '../components/layout/the-project-table.vue'
+import monthSummary from '../components/layout/month-summary.vue'
+import { useTimeStore } from '../stores/hours'
 
 const timeStore = useTimeStore()
 </script>
@@ -18,7 +19,10 @@ const timeStore = useTimeStore()
         <v-calendar
           v-model="timeStore.currentDate"
           :get-day-function="timeStore.getDay"
+          @changed-month="timeStore.setCurrentMonth($event)"
+          @changed-year="timeStore.setCurrentYear($event)"
         />
+        <month-summary :value="timeStore.monthSummary" />
       </div>
       <div class="form">
         <the-time-form v-model="timeStore.current" />

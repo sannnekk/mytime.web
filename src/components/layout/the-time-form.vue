@@ -3,12 +3,14 @@ import vTitle from '../text/v-title.vue'
 import vInput from '../form/v-input.vue'
 import vSwitch from '../form/v-switch.vue'
 import { computed } from 'vue'
+import { Day } from '../../utils/Day'
 
+// @ts-ignore
 /**
  * Props
  */
 const props = defineProps({
-  modelValue: Object
+  modelValue: Day
 })
 
 /**
@@ -20,6 +22,7 @@ const emits = defineEmits(['update:modelValue'])
  * Vue model state
  * @type {import('vue').WritableComputedRef<import('../../utils/Day').Day>}
  */
+// @ts-ignore
 const state = computed({
   get: () => props.modelValue,
   set: (value) => emits('update:modelValue', value)
@@ -31,6 +34,7 @@ const state = computed({
 const minimalBreak = computed(() => state.value.getMinBreak())
 const wholeTime = computed(() => state.value.getDuration())
 const overHours = computed(() => state.value.getOverHours())
+// @ts-ignore
 </script>
 
 <template>
@@ -54,14 +58,12 @@ const overHours = computed(() => state.value.getOverHours())
         type="time"
         label="Ende"
         v-model="state.end.value"
-        :is-error="state.isEndTimeError"
       />
       <v-input
         type="time"
         label="Pause"
         v-model="state.break.value"
         :min="minimalBreak.toFullString()"
-        :is-error="state.isPauseError"
       />
     </div>
     <div class="row">

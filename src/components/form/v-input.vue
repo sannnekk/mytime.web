@@ -3,6 +3,7 @@ import vTimeIcon from '../utils/v-time-icon.vue'
 import { computed, reactive } from 'vue'
 import { vMaska } from 'maska'
 
+// @ts-ignore
 /**
  * Props
  */
@@ -29,6 +30,7 @@ const emits = defineEmits(['update:modelValue'])
 const model = computed({
   get: () => props.modelValue ?? props.value,
   set: (value) => {
+    // @ts-ignore
     if (props.type === 'time' && !mask.completed) return
 
     emits('update:modelValue', value)
@@ -37,7 +39,9 @@ const model = computed({
 
 /**
  * Mask
+ * @type {import('maska').MaskaDetail}
  */
+// @ts-ignore
 const mask = reactive({})
 const maskOptions = reactive({
   eager: false,
@@ -47,13 +51,14 @@ const maskOptions = reactive({
           value.startsWith('-') && props.allowNegative ? '-##:##' : '##:##'
       : null
 })
+// @ts-ignore
 </script>
 
 <template>
   <div class="group">
     <label>{{ label }}</label>
     <input
-      :class="{ error: isError, error: type === 'time' && !mask.completed }"
+      :class="{ error: isError || (type === 'time' && !mask.completed) }"
       :type="type === 'time' ? 'text' : type"
       :placeholder="placeholder"
       :disabled="disabled"
@@ -64,7 +69,8 @@ const maskOptions = reactive({
     />
     <v-time-icon
       v-if="type === 'time'"
-      fill="#666"
+      primary="#000"
+      secondary="#fff"
       :time="model"
       class="time-icon"
     />
@@ -94,8 +100,9 @@ const maskOptions = reactive({
 }
 .group .time-icon {
   position: absolute;
-  bottom: 0.3em;
-  right: 0.3em;
-  font-size: 1.4em;
+  bottom: 0.4em;
+  right: 0.4em;
+  width: 1.4em;
+  height: 1.4em;
 }
 </style>

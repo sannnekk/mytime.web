@@ -1,7 +1,10 @@
 <script setup>
 import vLoader from '../utils/v-loader.vue'
 
-const props = defineProps({
+/**
+ * Props
+ */
+defineProps({
   primary: Boolean,
   thin: Boolean,
   danger: Boolean,

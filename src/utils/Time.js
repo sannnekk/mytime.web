@@ -22,10 +22,16 @@ export class Time {
 
   /**
    * Default constructor
-   * @param {String | null} time string time
+   * @param {String | number | null} time string time or number of minutes
    */
   constructor(time = null) {
-    this._time = time ?? '00:00'
+    if (typeof time === 'number') {
+      const h = Math.floor(time / 60)
+      const m = time % 60 < 10 ? `0${time % 60}` : time % 60
+      this._time = `${h < 10 ? '0' + h : h}:${m}`
+    } else {
+      this._time = time ?? '00:00'
+    }
   }
 
   /**
@@ -57,6 +63,16 @@ export class Time {
   }
 
   /**
+   * Add time
+   * @param {Time} time
+   */
+  add(time) {
+    return this._numberToTime(
+      this._timeToNumber(this) + this._timeToNumber(time)
+    )
+  }
+
+  /**
    * Check if time is negative
    * @returns {Boolean}
    */
@@ -84,7 +100,7 @@ export class Time {
 
   /**
    * Compare time with another time
-   * @param {Time} time 
+   * @param {Time} time
    * @returns {Boolean}
    */
   lessOrEqual(time) {
@@ -93,7 +109,7 @@ export class Time {
 
   /**
    * Check if time equals another time
-   * @param {Time} time 
+   * @param {Time} time
    * @returns {Boolean}
    */
   equals(time) {
@@ -106,7 +122,10 @@ export class Time {
    * @returns {number}
    */
   _timeToNumber(time) {
-    return time.toFullString().split(':').reduce((acc, time) => 60 * acc + +time, 0)
+    return time
+      .toFullString()
+      .split(':')
+      .reduce((acc, time) => 60 * acc + +time, 0)
   }
 
   /**
@@ -118,7 +137,7 @@ export class Time {
     let minus = ''
 
     if (number < 0) {
-      number = - number
+      number = -number
       minus = '-'
     }
 

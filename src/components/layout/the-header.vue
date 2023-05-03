@@ -5,9 +5,29 @@ import vTitle from '../text/v-title.vue'
 import { useUserStore } from '../../stores/user'
 import { useTimeStore } from '../../stores/hours'
 import { saveHoursData } from '../../utils/loaders'
+import { useRouter } from 'vue-router'
+import { ref } from 'vue'
 
 const userStore = useUserStore()
 const timeStore = useTimeStore()
+
+const router = useRouter()
+
+const saveLoading = ref(false)
+
+function onLogoutClick() {
+  userStore.logout()
+  router.push('/auth')
+}
+
+function onSaveClick() {
+  saveLoading.value = true
+
+  setTimeout(() => {
+    saveHoursData(timeStore.hours)
+    saveLoading.value = false
+  }, 500)
+}
 </script>
 
 <template>
@@ -22,13 +42,14 @@ const timeStore = useTimeStore()
       <v-button
         thin
         success
-        @click="saveHoursData(timeStore.hours)"
+        @click="onSaveClick()"
+        :loading="saveLoading"
         >Speichern</v-button
       >
       <v-button
         thin
         danger
-        @click="userStore.logout()"
+        @click="onLogoutClick()"
       >
         Ausloggen
       </v-button>

@@ -13,7 +13,11 @@ const props = defineProps({
 /**
  * Object to emit the event and update the modelValue
  */
-const emits = defineEmits(['update:modelValue'])
+const emits = defineEmits([
+  'update:modelValue',
+  'changed-month',
+  'changed-year'
+])
 
 /**
  * Function to fill the calendar cell with the date and hours
@@ -23,6 +27,7 @@ function getDayHours({ date, timestamp }) {
   /**
    * @type {import('../../../utils/Day').Day}
    */
+  // @ts-ignore
   const day = props.getDayFunction(timestamp)
   let cellContent = `<span class="date">${date}</span>`
 
@@ -44,13 +49,13 @@ function getDayHours({ date, timestamp }) {
 <template>
   <div class="calendar">
     <datepicker
-      :disabled="false"
       :inline="true"
       :monday-first="true"
       language="de"
-      :typeable="true"
       :value="modelValue"
       :day-cell-content="getDayHours"
+      @changed-month="emits('changed-month', $event)"
+      @changed-year="emits('changed-year', $event)"
       @selected="emits('update:modelValue', $event)"
     />
   </div>
@@ -100,5 +105,8 @@ function getDayHours({ date, timestamp }) {
   .vuejs3-datepicker__calendar
   .cell:not(.blank):not(.disabled).year:hover {
   border: 1px solid var(--accent);
+}
+.calendar:deep() .vuejs3-datepicker__calendar-actionarea > div {
+  margin-top: 2.5em;
 }
 </style>

@@ -1,5 +1,8 @@
 <script setup>
-const props = defineProps({
+/**
+ * Props
+ */
+defineProps({
   small: Boolean
 })
 </script>

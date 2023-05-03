@@ -1,11 +1,18 @@
 <script setup>
-const props = defineProps({
+/**
+ * Props
+ */
+defineProps({
   type: String,
   placeholder: String,
   modelValue: String,
   disabled: Boolean
 })
-const emits = defineEmits(['update:modelValue'])
+
+/**
+ * Emits
+ */
+defineEmits(['update:modelValue'])
 </script>
 
 <template>
@@ -15,7 +22,7 @@ const emits = defineEmits(['update:modelValue'])
     :value="modelValue"
     :disabled="disabled"
     :step="type === 'time' ? 300 : 'any'"
-    @input="$emit('update:modelValue', $event.target.value)"
+    @input="$emit('update:modelValue', $event.target?.value)"
   />
 </template>
 

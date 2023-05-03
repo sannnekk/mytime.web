@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
 
 /**
  * @typedef {{
@@ -59,13 +58,12 @@ export const useUserStore = defineStore('user', () => {
     user.value = null
     token.value = null
     isAuthenticated.value = false
-
-    useRouter().push('/auth')
   }
 
   return {
     isAuthenticated,
     login,
-    logout
+    logout,
+    user
   }
 })
