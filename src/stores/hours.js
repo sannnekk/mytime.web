@@ -74,6 +74,8 @@ export const useTimeStore = defineStore('time', () => {
       new Time()
     )
 
+    const overHours = monthHours.getDifferrence(new Time(8 * 60 * days.length))
+
     const month = [
       'Januar',
       'Februar',
@@ -93,7 +95,7 @@ export const useTimeStore = defineStore('time', () => {
       hours: monthHours,
       month,
       year: currentYear.value,
-      overHours: monthHours.getDifferrence(new Time(8 * 60 * days.length))
+      overHours
     }
   })
 
