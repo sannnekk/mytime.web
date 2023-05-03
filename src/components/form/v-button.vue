@@ -5,12 +5,13 @@ const props = defineProps({
   primary: Boolean,
   thin: Boolean,
   danger: Boolean,
-  loading: Boolean
+  loading: Boolean,
+  success: Boolean
 })
 </script>
 
 <template>
-  <button :class="{ primary, thin, danger }">
+  <button :class="{ primary, thin, danger, success }">
     <v-loader
       class="loader"
       v-if="loading"
@@ -65,6 +66,14 @@ button.danger {
 }
 button.danger:hover {
   background-color: var(--danger) !important;
+  color: var(--white) !important;
+}
+button.success {
+  border-color: var(--success) !important;
+  color: var(--success) !important;
+}
+button.success:hover {
+  background-color: var(--success) !important;
   color: var(--white) !important;
 }
 button .loader {

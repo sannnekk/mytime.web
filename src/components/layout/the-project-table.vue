@@ -1,29 +1,41 @@
 <script setup>
 import vInlineInput from '@/components/form/v-inline-input.vue'
+import vInput from '@/components/form/v-input.vue'
 import vButton from '@/components/form/v-button.vue'
-import vTitle from '@/components/text/v-title.vue'
 import { computed } from 'vue'
+import { Project } from '@/utils/Project'
 
+/**
+ * Props
+ */
 const props = defineProps({
   modelValue: Array
 })
 
+/**
+ * Emits
+ */
 const emits = defineEmits(['update:modelValue'])
 
+/**
+ * Vue model state
+ */
 const items = computed({
   get: () => props.modelValue,
   set: (value) => emits('update:modelValue', value)
 })
 
+/**
+ * Add new project
+ */
 function onAddProject() {
-  items.value.push({
-    projectNumber: '',
-    projectPart: '',
-    time: '',
-    note: ''
-  })
+  items.value.push(new Project())
 }
 
+/**
+ * Remove project
+ * @param {number} index
+ */
 function onRemoveProject(index) {
   items.value.splice(index, 1)
 }
@@ -31,18 +43,21 @@ function onRemoveProject(index) {
 
 <template>
   <div class="project-table">
-    <div class="title">
-      <v-title small>Projekte</v-title>
-    </div>
+    <p
+      class="no-projects"
+      v-if="items.length === 0"
+    >
+      Noch keine Projekte hinzugefügt
+    </p>
     <table>
       <thead>
-        <tr>
-          <th>#</th>
+        <tr v-if="items.length">
+          <th></th>
           <th>Projekt-#</th>
-          <th>Projektteil</th>
+          <th>Name</th>
           <th>Zeit</th>
           <th>Anmerkung</th>
-          <th>Actions</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -53,19 +68,19 @@ function onRemoveProject(index) {
           <td class="number">{{ index + 1 }}</td>
           <td class="project-number-col">
             <v-inline-input
-              v-model="project.projectNumber"
+              v-model="project.number"
               placeholder="12345..."
             />
           </td>
           <td class="project-part-col">
             <v-inline-input
-              v-model="project.projectPart"
-              placeholder="12345..."
+              v-model="project.title"
+              placeholder="Projekt..."
             />
           </td>
           <td>
-            <v-inline-input
-              v-model="project.time"
+            <v-input
+              v-model="project.time.value"
               type="time"
             />
           </td>
@@ -91,17 +106,22 @@ function onRemoveProject(index) {
       class="new-button"
       thin
       @click="onAddProject"
-      >Neue Zeile hinzufügen</v-button
+      >Projekt hinzufügen</v-button
     >
   </div>
 </template>
 
 <style scoped>
+p.no-projects {
+  color: var(--text-light);
+  font-size: 0.9em;
+  margin-top: 1em;
+}
 table {
   width: 100%;
 }
 th {
-  color: var(--text-dark) !important;
+  color: var(--text) !important;
 }
 td,
 th {

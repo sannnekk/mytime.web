@@ -12,19 +12,19 @@ import { useRouter } from 'vue-router'
 export const useUserStore = defineStore('user', () => {
   /**
    * Ref to the current user
-   * @type {Ref<User>}
+   * @type {import('vue').Ref<User | null>}
    */
   const user = ref(null)
 
   /**
    * Ref to the current user token
-   * @type {Ref<String | null>}
+   * @type {import('vue').Ref<String | null>}
    */
   const token = ref(null)
 
   /**
    * Check if the user is authenticated
-   * @type {Ref<Boolean>}
+   * @type {import('vue').Ref<Boolean>}
    */
   const isAuthenticated = ref(false)
 

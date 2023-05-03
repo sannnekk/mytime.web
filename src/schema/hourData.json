@@ -1,0 +1,90 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "array",
+  "items": [
+    {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "date": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "isVocation": {
+          "type": "boolean"
+        },
+        "isNotPresent": {
+          "type": "boolean"
+        },
+        "start": {
+          "type": "string",
+          "pattern": "^([01]?[0-9]|2[0-3]):[0-5][0-9]$"
+        },
+        "end": {
+          "type": "string",
+          "pattern": "^([01]?[0-9]|2[0-3]):[0-5][0-9]$"
+        },
+        "hours": {
+          "type": "string",
+          "pattern": "^([01]?[0-9]|2[0-3]):[0-5][0-9]$"
+        },
+        "break": {
+          "type": "string",
+          "pattern": "^([01]?[0-9]|2[0-3]):[0-5][0-9]$"
+        },
+        "minBreak": {
+          "type": "string",
+          "pattern": "^([01]?[0-9]|2[0-3]):[0-5][0-9]$"
+        },
+        "overHours": {
+          "type": "string",
+          "pattern": "^([01]?[0-9]|2[0-3]):[0-5][0-9]$"
+        },
+        "projects": {
+          "type": "array",
+          "items": [
+            {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "projectNumber": {
+                  "type": "string"
+                },
+                "projectPart": {
+                  "type": "string"
+                },
+                "time": {
+                  "type": "string",
+                  "pattern": "^([01]?[0-9]|2[0-3]):[0-5][0-9]$"
+                },
+                "note": {
+                  "type": "string"
+                }
+              },
+              "required": ["id", "projectNumber", "projectPart", "time", "note"]
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "date",
+        "isVocation",
+        "isNotPresent",
+        "start",
+        "end",
+        "hours",
+        "break",
+        "minBreak",
+        "overHours",
+        "projects"
+      ]
+    }
+  ]
+}

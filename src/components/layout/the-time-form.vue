@@ -4,16 +4,33 @@ import vInput from '../form/v-input.vue'
 import vSwitch from '../form/v-switch.vue'
 import { computed } from 'vue'
 
+/**
+ * Props
+ */
 const props = defineProps({
   modelValue: Object
 })
 
+/**
+ * Emits
+ */
 const emits = defineEmits(['update:modelValue'])
 
+/**
+ * Vue model state
+ * @type {import('vue').WritableComputedRef<import('../../utils/Day').Day>}
+ */
 const state = computed({
   get: () => props.modelValue,
   set: (value) => emits('update:modelValue', value)
 })
+
+/**
+ * Computed
+ */
+const minimalBreak = computed(() => state.value.getMinBreak())
+const wholeTime = computed(() => state.value.getDuration())
+const overHours = computed(() => state.value.getOverHours())
 </script>
 
 <template>
@@ -31,19 +48,19 @@ const state = computed({
       <v-input
         type="time"
         label="Start"
-        v-model="state.start"
+        v-model="state.start.value"
       />
       <v-input
         type="time"
         label="Ende"
-        v-model="state.end"
+        v-model="state.end.value"
         :is-error="state.isEndTimeError"
       />
       <v-input
         type="time"
         label="Pause"
-        v-model="state.break"
-        :min="state.minBreak"
+        v-model="state.break.value"
+        :min="minimalBreak.toFullString()"
         :is-error="state.isPauseError"
       />
     </div>
@@ -51,19 +68,20 @@ const state = computed({
       <v-input
         type="time"
         label="Mindestpause"
-        v-model="state.minBreak"
+        :value="minimalBreak.value"
         disabled
       />
       <v-input
         type="time"
         label="Gesamte Arbeitszeit"
-        v-model="state.hours"
+        :value="wholeTime.value"
         disabled
       />
       <v-input
         type="time"
         label="Überstunden"
-        v-model="state.overHours"
+        :value="overHours.value"
+        allow-negative
         disabled
       />
     </div>

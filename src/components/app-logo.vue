@@ -1,15 +1,31 @@
 <script setup></script>
 
 <template>
-  <h2 class="logo"><span>My</span>Time</h2>
+  <h2 class="logo">
+    <span>My</span>Time
+    <b>by Fischer Teamplan</b>
+  </h2>
 </template>
 
 <style scoped>
 .logo {
   color: var(--text);
   font-weight: bold;
+  position: relative;
+  line-height: 1.5;
+  font-size: 3.53rem;
 }
 .logo span {
   color: var(--accent);
+}
+.logo b {
+  color: var(--text-light);
+  font-weight: normal;
+  font-size: 0.23em;
+  position: absolute;
+  bottom: 0;
+  left: 6.5em;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
 }
 </style>

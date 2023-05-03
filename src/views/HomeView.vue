@@ -17,19 +17,13 @@ const timeStore = useTimeStore()
       <div class="calendar">
         <v-calendar
           v-model="timeStore.currentDate"
-          :isNotPresentFunction="timeStore.isNotPresent"
-          :isVocationFunction="timeStore.isVocation"
-          :getHoursFunction="timeStore.getHours"
+          :get-day-function="timeStore.getDay"
         />
       </div>
       <div class="form">
         <the-time-form v-model="timeStore.current" />
-        <the-project-table
-          v-if="timeStore.current"
-          v-model="timeStore.current.projects"
-        />
+        <the-project-table v-model="timeStore.current.projects" />
       </div>
-      <div class="table"></div>
     </main>
   </div>
 </template>

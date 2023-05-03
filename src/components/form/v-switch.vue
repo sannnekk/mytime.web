@@ -1,26 +1,43 @@
 <script setup>
+import { computed } from 'vue'
+
+/**
+ * Props
+ */
 const props = defineProps({
   modelValue: Boolean
 })
+
+/**
+ * Emits
+ */
 const emits = defineEmits(['update:modelValue'])
 
-function onClick() {
-  emits('update:modelValue', !props.modelValue)
-}
+/**
+ * State
+ */
+const switchState = computed({
+  get: () => props.modelValue,
+  set: (value) => emits('update:modelValue', value)
+})
 </script>
 
 <template>
-  <div
+  <label
     class="switch"
-    :class="modelValue ? 'on' : 'off'"
-    @click="onClick()"
+    :class="{ on: switchState, off: !switchState }"
   >
     <div class="switch__button"></div>
-  </div>
+    <input
+      type="checkbox"
+      v-model="switchState"
+    />
+  </label>
 </template>
 
 <style scoped>
 .switch {
+  display: block;
   position: relative;
   width: 3em;
   height: 1.5em;
@@ -42,6 +59,9 @@ function onClick() {
   transition: all 0.2s ease;
 }
 .switch.on .switch__button {
-  left: 1.7em;
+  left: 1.6em;
+}
+.switch input {
+  display: none;
 }
 </style>

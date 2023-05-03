@@ -3,8 +3,11 @@ import appLogo from '../app-logo.vue'
 import vButton from '../form/v-button.vue'
 import vTitle from '../text/v-title.vue'
 import { useUserStore } from '../../stores/user'
+import { useTimeStore } from '../../stores/hours'
+import { saveHoursData } from '../../utils/loaders'
 
 const userStore = useUserStore()
+const timeStore = useTimeStore()
 </script>
 
 <template>
@@ -15,12 +18,20 @@ const userStore = useUserStore()
     <div class="user">
       <v-title>Oleksandr Petrushyn</v-title>
     </div>
-    <div class="logout">
+    <div class="actions">
       <v-button
         thin
-        @click="userStore.logout()"
-        >Ausloggen</v-button
+        success
+        @click="saveHoursData(timeStore.hours)"
+        >Speichern</v-button
       >
+      <v-button
+        thin
+        danger
+        @click="userStore.logout()"
+      >
+        Ausloggen
+      </v-button>
     </div>
   </div>
 </template>
@@ -41,7 +52,10 @@ const userStore = useUserStore()
 .header .user > * {
   font-weight: lighter;
 }
-.header .logout {
-  margin-left: 1em;
+.header .actions {
+  display: flex;
+  align-items: center;
+  gap: 0.2em;
+  margin-top: 10px;
 }
 </style>

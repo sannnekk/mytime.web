@@ -34,55 +34,59 @@ async function onLogin() {
 </script>
 
 <template>
-  <div class="auth">
-    <div class="logo">
-      <app-logo />
-    </div>
-    <div class="hint">
-      <text-block>Ein Tool, um die Arbeitszeit zu erfassen</text-block>
-    </div>
-    <div class="inputs">
-      <v-input
-        type="text"
-        placeholder="Benutzername"
-        v-model="login"
-        @keyup.enter="onLogin()"
-      />
-      <v-input
-        type="password"
-        placeholder="Passwort"
-        v-model="password"
-        @keyup.enter="onLogin()"
-      />
-    </div>
-    <div
-      class="error"
-      v-if="error"
-    >
-      <v-hint type="danger">Benutzername oder Passwort ist falsch</v-hint>
-    </div>
-    <div class="button">
-      <v-button
-        primary
-        :loading="loading"
-        @click="onLogin()"
-        >Einloggen</v-button
+  <div class="auth-container">
+    <div class="auth">
+      <div class="logo">
+        <app-logo />
+      </div>
+      <div class="hint">
+        <text-block center>Ein Tool, um die Arbeitszeit zu erfassen</text-block>
+      </div>
+      <div class="inputs">
+        <v-input
+          type="text"
+          placeholder="Benutzername"
+          v-model="login"
+          @keyup.enter="onLogin()"
+        />
+        <v-input
+          type="password"
+          placeholder="Passwort"
+          v-model="password"
+          @keyup.enter="onLogin()"
+        />
+      </div>
+      <div
+        class="error"
+        v-if="error"
       >
+        <v-hint type="danger">Benutzername oder Passwort ist falsch</v-hint>
+      </div>
+      <div class="button">
+        <v-button
+          primary
+          :loading="loading"
+          @click="onLogin()"
+          >Einloggen</v-button
+        >
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
+.auth-container {
+  display: flex;
+  justify-content: center;
+}
 .auth {
-  position: fixed;
-  top: 3rem;
-  left: 50%;
-  transform: translateX(-50%);
   width: 400px;
   max-width: 90%;
 }
 .auth .logo {
-  font-size: 3.5rem;
+  font-size: 2.3em;
+  justify-content: center;
+  display: flex;
 }
 .auth .inputs > * {
   width: 100%;
@@ -91,5 +95,10 @@ async function onLogin() {
 .auth .button button {
   width: 100%;
   margin-top: 0.5em;
+}
+@media screen and (max-width: 600px) {
+  .auth .logo {
+    font-size: 1.8em;
+  }
 }
 </style>

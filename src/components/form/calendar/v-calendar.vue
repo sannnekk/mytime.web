@@ -1,30 +1,41 @@
 <script setup>
 import Datepicker from 'vuejs3-datepicker'
+import { Time } from '../../../utils/Time'
 
+/**
+ * Props
+ */
 const props = defineProps({
   modelValue: Date,
-  isVocationFunction: Function,
-  isNotPresentFunction: Function,
-  getHoursFunction: Function
+  getDayFunction: Function
 })
 
+/**
+ * Object to emit the event and update the modelValue
+ */
 const emits = defineEmits(['update:modelValue'])
 
+/**
+ * Function to fill the calendar cell with the date and hours
+ * @param {{date: Number, timestamp: Number}} param
+ */
 function getDayHours({ date, timestamp }) {
+  /**
+   * @type {import('../../../utils/Day').Day}
+   */
+  const day = props.getDayFunction(timestamp)
   let cellContent = `<span class="date">${date}</span>`
-  const dateObject = new Date(timestamp)
 
-  if (props.isNotPresentFunction(dateObject))
+  if (!day) return cellContent
+
+  const duration = day.getDuration()
+
+  if (day.isNotPresent)
     cellContent += `<span class="hours not-present">A</span>`
-  else if (props.isVocationFunction(dateObject))
+  else if (day.isVocation)
     cellContent += `<span class="hours vocation">U</span>`
-  else if (
-    props.getHoursFunction(dateObject) &&
-    props.getHoursFunction(dateObject) !== '0'
-  )
-    cellContent += `<span class="hours">${props.getHoursFunction(
-      dateObject
-    )} h</span>`
+  else if (!duration.equals(Time.ZERO))
+    cellContent += `<span class="hours">${duration.toShortString()} h</span>`
 
   return cellContent
 }
@@ -37,6 +48,7 @@ function getDayHours({ date, timestamp }) {
       :inline="true"
       :monday-first="true"
       language="de"
+      :typeable="true"
       :value="modelValue"
       :day-cell-content="getDayHours"
       @selected="emits('update:modelValue', $event)"
@@ -77,5 +89,16 @@ function getDayHours({ date, timestamp }) {
 }
 .calendar:deep() .vuejs3-datepicker__calendar .cell.selected span.hours {
   color: var(--white);
+}
+.calendar:deep()
+  .vuejs3-datepicker__calendar
+  .cell:not(.blank):not(.disabled).day:hover,
+.calendar:deep()
+  .vuejs3-datepicker__calendar
+  .cell:not(.blank):not(.disabled).month:hover,
+.calendar:deep()
+  .vuejs3-datepicker__calendar
+  .cell:not(.blank):not(.disabled).year:hover {
+  border: 1px solid var(--accent);
 }
 </style>
