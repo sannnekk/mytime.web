@@ -29,8 +29,10 @@ export class Time {
       const h = Math.floor(time / 60)
       const m = time % 60 < 10 ? `0${time % 60}` : time % 60
       this._time = `${h < 10 ? '0' + h : h}:${m}`
-    } else {
+    } else if (typeof time === 'string') {
       this._time = time ?? '00:00'
+    } else {
+      this._time = '00:00'
     }
   }
 

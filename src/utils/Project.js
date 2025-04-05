@@ -6,7 +6,6 @@ import { v4 as uuid } from 'uuid'
  */
 export class Project {
   _id
-  _number
   _part
   _title
   _projectTime
@@ -14,7 +13,6 @@ export class Project {
 
   constructor() {
     this._id = uuid()
-    this._number = ''
     this._part = ''
     this._title = ''
     this._projectTime = new Time()
@@ -60,14 +58,6 @@ export class Project {
 
   set id(value) {
     this._id = value
-  }
-
-  get number() {
-    return this._number
-  }
-
-  set number(value) {
-    this._number = value
   }
 
   get part() {

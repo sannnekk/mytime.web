@@ -1,10 +1,14 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+import { loginUser, logoutUser, getUsers } from '../utils/loaders'
 
 /**
  * @typedef {{
  *  id: String,
- *  name: String
+ *  name: String,
+ *  username: String,
+ *  email: String,
+ *  role: 'admin' | 'user'
  * }} User
  */
 
@@ -13,19 +17,23 @@ export const useUserStore = defineStore('user', () => {
    * Ref to the current user
    * @type {import('vue').Ref<User | null>}
    */
-  const user = ref(null)
+  const user = ref(
+    localStorage.getItem('user')
+      ? JSON.parse(localStorage.getItem('user'))
+      : null
+  )
 
   /**
-   * Ref to the current user token
-   * @type {import('vue').Ref<String | null>}
+   * All the users
+   * @type {import('vue').Ref<User[]>}
    */
-  const token = ref(null)
+  const users = ref([])
 
   /**
    * Check if the user is authenticated
    * @type {import('vue').Ref<Boolean>}
    */
-  const isAuthenticated = ref(false)
+  const isAuthenticated = computed(() => user.value !== null)
 
   /**
    * Function to log in the user
@@ -33,37 +41,40 @@ export const useUserStore = defineStore('user', () => {
    * @param {String} password
    * @returns {Promise<void>}
    */
-  function login(username, password) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        if (username === 'admin' && password === 'admin') {
-          user.value = {
-            id: '123',
-            name: 'Oleksandr Petrushyn'
-          }
-          token.value = '123'
-          isAuthenticated.value = true
-          resolve()
-        } else {
-          reject()
-        }
-      }, 1000)
-    })
+  async function login(username, password) {
+    const response = await loginUser(username, password)
+
+    if (!response) {
+      throw new Error('Invalid credentials')
+    }
+
+    user.value = response
   }
 
   /**
    * Function to log out the user
    */
-  function logout() {
+  async function logout() {
+    if (!(await logoutUser())) {
+      throw new Error('Failed to log out')
+    }
+
     user.value = null
-    token.value = null
-    isAuthenticated.value = false
+  }
+
+  /**
+   * Get all users
+   */
+  async function getAllUsers() {
+    users.value = await getUsers()
   }
 
   return {
     isAuthenticated,
     login,
     logout,
-    user
+    getAllUsers,
+    user,
+    users
   }
 })

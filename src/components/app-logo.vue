@@ -3,7 +3,7 @@
 <template>
   <h2 class="logo">
     <span>My</span>Time
-    <b>by Fischer Teamplan</b>
+    <b>by HMnet</b>
   </h2>
 </template>
 
@@ -24,7 +24,7 @@
   font-size: 0.23em;
   position: absolute;
   bottom: 0;
-  left: 6.5em;
+  right: 0;
   letter-spacing: 0.06em;
   white-space: nowrap;
 }

@@ -4,29 +4,29 @@ import vButton from '../form/v-button.vue'
 import vTitle from '../text/v-title.vue'
 import { useUserStore } from '../../stores/user'
 import { useTimeStore } from '../../stores/hours'
-import { saveHoursData } from '../../utils/loaders'
-import { useRouter } from 'vue-router'
 import { ref } from 'vue'
+
+defineProps({
+  name: String,
+  noBackButton: Boolean
+})
 
 const userStore = useUserStore()
 const timeStore = useTimeStore()
 
-const router = useRouter()
-
 const saveLoading = ref(false)
 
-function onLogoutClick() {
-  userStore.logout()
-  router.push('/auth')
+async function onLogoutClick() {
+  await userStore.logout()
+  window.location.reload()
 }
 
-function onSaveClick() {
+async function onSaveClick() {
   saveLoading.value = true
 
-  setTimeout(() => {
-    saveHoursData(timeStore.hours)
-    saveLoading.value = false
-  }, 500)
+  await timeStore.saveHours()
+
+  saveLoading.value = false
 }
 </script>
 
@@ -36,7 +36,7 @@ function onSaveClick() {
       <app-logo />
     </div>
     <div class="user">
-      <v-title>Oleksandr Petrushyn</v-title>
+      <v-title>{{ name ?? timeStore.user?.name }}</v-title>
     </div>
     <div class="actions">
       <v-button
@@ -54,6 +54,17 @@ function onSaveClick() {
         Ausloggen
       </v-button>
     </div>
+  </div>
+  <div
+    class="back-button-container"
+    v-if="userStore.user?.role === 'admin' && !noBackButton"
+  >
+    <router-link
+      to="/users"
+      class="back-button"
+    >
+      <v-button thin>Zurück</v-button>
+    </router-link>
   </div>
 </template>
 
@@ -78,5 +89,13 @@ function onSaveClick() {
   align-items: center;
   gap: 0.2em;
   margin-top: 10px;
+}
+.back-button-container {
+  padding: 0.5em 0;
+}
+.back-button .back-button {
+  display: block;
+  text-decoration: none;
+  color: inherit;
 }
 </style>

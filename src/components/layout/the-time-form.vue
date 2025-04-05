@@ -10,7 +10,8 @@ import { Day } from '../../utils/Day'
  * Props
  */
 const props = defineProps({
-  modelValue: Day
+  modelValue: Day,
+  readonly: Boolean
 })
 
 /**
@@ -43,9 +44,20 @@ const overHours = computed(() => state.value.getOverHours())
       <v-title small>Tägliche Arbeitszeit erfassen</v-title>
     </div>
     <div class="row">
-      <v-switch v-model="state.isVocation" />
-      <p>Ist Urlaub</p>
-      <v-switch v-model="state.isNotPresent" />
+      <v-switch
+        v-model="state.isHomeOffice"
+        :disabled="readonly"
+      />
+      <p>HomeOffice</p>
+      <v-switch
+        v-model="state.isVocation"
+        :disabled="readonly"
+      />
+      <p>Urlaub</p>
+      <v-switch
+        v-model="state.isNotPresent"
+        :disabled="readonly"
+      />
       <p>Aus sonstigem Grund nicht anwesend</p>
     </div>
     <div class="row">
@@ -53,16 +65,19 @@ const overHours = computed(() => state.value.getOverHours())
         type="time"
         label="Start"
         v-model="state.start.value"
+        :disabled="readonly"
       />
       <v-input
         type="time"
         label="Ende"
         v-model="state.end.value"
+        :disabled="readonly"
       />
       <v-input
         type="time"
         label="Pause"
         v-model="state.break.value"
+        :disabled="readonly"
         :min="minimalBreak.toFullString()"
       />
     </div>

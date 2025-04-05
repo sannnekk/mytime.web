@@ -1,51 +1,11 @@
 <script setup>
-import vButton from '../form/v-button.vue'
-import { ref } from 'vue'
-import { saveJSON, savePDF } from '../../utils/loaders'
-import { useUserStore } from '../../stores/user'
-
 // @ts-ignore
 /**
  * Props
  */
-const props = defineProps({
+defineProps({
   value: Object
 })
-
-/**
- * Loading
- */
-const loadingJSON = ref(false)
-const loadingPDF = ref(false)
-
-/**
- * User store
- */
-const userStore = useUserStore()
-
-/**
- * Export to JSON
- */
-function onJSONExport() {
-  loadingJSON.value = true
-  setTimeout(() => {
-    // @ts-ignore
-    saveJSON(props.value?.month, props.value?.year, userStore.user?.name)
-    loadingJSON.value = false
-  }, 500)
-}
-
-/**
- * Export to PDF
- */
-function onPDFExport() {
-  loadingPDF.value = true
-  setTimeout(() => {
-    savePDF()
-    loadingPDF.value = false
-  }, 500)
-}
-// @ts-ignore
 </script>
 
 <template>
@@ -62,7 +22,13 @@ function onPDFExport() {
         {{ value?.overHours.toShortString() ?? '00:00' }} h
       </div>
     </div>
-    <div class="row no-m">
+    <div class="row">
+      <p class="hint">
+        Überstunden-Rechnung geht davon aus, dass es 4 Stunden am Tag (20
+        Stunden pro Woche) gearbeitet wird.
+      </p>
+    </div>
+    <!--<div class="row no-m">
       <v-button
         thin
         @click="onJSONExport()"
@@ -77,7 +43,7 @@ function onPDFExport() {
       >
         Export PDF
       </v-button>
-    </div>
+    </div>-->
   </div>
 </template>
 
@@ -107,5 +73,10 @@ function onPDFExport() {
 }
 .align-right {
   text-align: right;
+}
+.row .hint {
+  font-size: 0.8em;
+  color: var(--text-light);
+  margin-top: 0.5em;
 }
 </style>

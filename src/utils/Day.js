@@ -7,6 +7,7 @@ export class Day {
   _date
   _isVocation
   _isNotPresent
+  _isHomeOffice
   _startTime
   _endTime
   _breakTime
@@ -17,6 +18,7 @@ export class Day {
     this._date = date
     this._isVocation = false
     this._isNotPresent = false
+    this._isHomeOffice = false
     this._startTime = new Time()
     this._endTime = new Time()
     this._breakTime = new Time()
@@ -52,15 +54,15 @@ export class Day {
     // for json conversion
     if (data._breakTime)
       // @ts-ignore
-      day._breakTime = new Time(data._breakTime)
+      day._breakTime = new Time(data._breakTime._time)
 
     if (data._startTime)
       // @ts-ignore
-      day._startTime = new Time(data._startTime)
+      day._startTime = new Time(data._startTime._time)
 
     if (data._endTime)
       // @ts-ignore
-      day._endTime = new Time(data._endTime)
+      day._endTime = new Time(data._endTime._time)
 
     return day
   }
@@ -78,6 +80,15 @@ export class Day {
       {}
     )
     Object.assign(this, obj)
+  }
+
+  get isToday() {
+    const today = new Date()
+    return (
+      this._date.getDate() === today.getDate() &&
+      this._date.getMonth() === today.getMonth() &&
+      this._date.getFullYear() === today.getFullYear()
+    )
   }
 
   /**
@@ -110,7 +121,7 @@ export class Day {
    * @returns {Time} over hours
    */
   getOverHours() {
-    return this.getDuration().getDifferrence(new Time('08:00'))
+    return this.getDuration().getDifferrence(new Time('04:00'))
   }
 
   /**
@@ -171,6 +182,14 @@ export class Day {
 
   set isNotPresent(value) {
     this._isNotPresent = value
+  }
+
+  get isHomeOffice() {
+    return this._isHomeOffice
+  }
+
+  set isHomeOffice(value) {
+    this._isHomeOffice = value
   }
 
   get start() {

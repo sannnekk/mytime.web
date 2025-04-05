@@ -29,7 +29,9 @@ function getDayHours({ date, timestamp }) {
    */
   // @ts-ignore
   const day = props.getDayFunction(timestamp)
-  let cellContent = `<span class="date">${date}</span>`
+  let cellContent = `<span class="date">${date} ${
+    day?.isHomeOffice ? '<span class="emoji">🏠</span>' : ''
+  }</span>`
 
   if (!day) return cellContent
 
@@ -76,11 +78,27 @@ function getDayHours({ date, timestamp }) {
 .calendar:deep() span.hours.not-present {
   color: var(--warning);
 }
+.calendar:deep() span.hours.home-office {
+  color: var(--success);
+}
 .calendar:deep() .cell {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  white-space: nowrap;
+}
+.calendar:deep() .cell .emoji {
+  display: inline-block;
+  width: 0.9em;
+  margin-left: -0.3em;
+}
+.calendar:deep() .cell.day.today {
+  border: 1px solid var(--accent);
+  font-weight: bold;
+}
+.calendar:deep() .cell.day.weekend {
+  color: var(--text-light);
 }
 .calendar:deep() .cell .date,
 .calendar:deep() .cell .hours {

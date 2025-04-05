@@ -9,7 +9,8 @@ import { Project } from '@/utils/Project'
  * Props
  */
 const props = defineProps({
-  modelValue: Array
+  modelValue: Array,
+  readonly: Boolean
 })
 
 /**
@@ -53,7 +54,6 @@ function onRemoveProject(index) {
       <thead>
         <tr v-if="items.length">
           <th></th>
-          <th>Projekt-#</th>
           <th>Name</th>
           <th>Zeit</th>
           <th>Anmerkung</th>
@@ -66,32 +66,30 @@ function onRemoveProject(index) {
           :key="project.id"
         >
           <td class="number">{{ index + 1 }}</td>
-          <td class="project-number-col">
-            <v-inline-input
-              v-model="project.number"
-              placeholder="12345..."
-            />
-          </td>
           <td class="project-part-col">
             <v-inline-input
               v-model="project.title"
               placeholder="Projekt..."
+              :disabled="readonly"
             />
           </td>
           <td>
             <v-input
               v-model="project.time.value"
               type="time"
+              :disabled="readonly"
             />
           </td>
           <td class="note-col">
             <v-inline-input
               v-model="project.note"
               placeholder="Etwas..."
+              :disabled="readonly"
             />
           </td>
           <td class="actions">
             <v-button
+              v-if="!readonly"
               thin
               danger
               @click="onRemoveProject(index)"
@@ -103,11 +101,13 @@ function onRemoveProject(index) {
       </tbody>
     </table>
     <v-button
+      v-if="!readonly"
       class="new-button"
       thin
       @click="onAddProject"
-      >Projekt hinzufügen</v-button
     >
+      Projekt hinzufügen
+    </v-button>
   </div>
 </template>
 

@@ -1,13 +1,31 @@
-import { ref, reactive, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { defineStore } from 'pinia'
 import { Day } from '../utils/Day'
-import { loadHoursData } from '../utils/loaders'
+import { loadHoursData, saveHoursData, getUser } from '../utils/loaders'
 import { Time } from '../utils/Time'
+import { useRoute } from 'vue-router'
 
 /**
  * Main app store to handle working hours data
  */
 export const useTimeStore = defineStore('time', () => {
+  const route = useRoute()
+
+  /**
+   * Current user id
+   */
+  const userId = computed(() => route.params.userId)
+
+  /**
+   * User
+   */
+  const user = ref()
+
+  /**
+   * Loading state
+   */
+  const loading = ref(false)
+
   /**
    * Ref to the current date hours object from hours array
    */
@@ -32,7 +50,7 @@ export const useTimeStore = defineStore('time', () => {
 
       if (_current) return _current
 
-      hours.push(new Day(currentDate.value))
+      hours.value = [...hours.value, new Day(currentDate.value)]
 
       /**
        * @type {Day}
@@ -42,10 +60,12 @@ export const useTimeStore = defineStore('time', () => {
       return day
     },
     set: (value) => {
-      const index = hours.findIndex((day) => day.isOnDate(currentDate.value))
+      const index = hours.value.findIndex((day) =>
+        day.isOnDate(currentDate.value)
+      )
 
-      if (index !== -1) hours[index] = value
-      else hours.push(value)
+      if (index !== -1) hours.value[index] = value
+      else hours.value.push(value)
     }
   })
 
@@ -53,13 +73,18 @@ export const useTimeStore = defineStore('time', () => {
    * The data we are working with
    * @type {Day[]} hours
    */
-  const hours = reactive(loadHoursData())
+  const hours = ref([])
+
+  /**
+   * Load the hours data when month or year changes
+   */
+  watch([currentMonth, currentYear], fetchHours)
 
   /**
    * Month summary under the calendar
    */
   const monthSummary = computed(() => {
-    const days = hours
+    const days = hours.value
       .filter(Boolean)
       .filter((day) => !day.getDuration().equals(new Time('00:00')))
       .filter(
@@ -74,7 +99,7 @@ export const useTimeStore = defineStore('time', () => {
       new Time()
     )
 
-    const overHours = monthHours.getDifferrence(new Time(8 * 60 * days.length))
+    const overHours = monthHours.getDifferrence(new Time(4 * 60 * days.length))
 
     const month = [
       'Januar',
@@ -122,16 +147,67 @@ export const useTimeStore = defineStore('time', () => {
    */
   function getDay(arg) {
     const param = typeof arg === 'number' ? new Date(arg) : arg
-    return hours.find((day) => day.isOnDate(param)) || false
+    return hours.value.find((day) => day.isOnDate(param)) || false
+  }
+
+  /**
+   * Function to fetch hours
+   */
+  async function fetchHours() {
+    loading.value = true
+
+    try {
+      hours.value = await loadHoursData(
+        userId.value,
+        currentMonth.value,
+        currentYear.value
+      )
+    } catch (error) {
+      console.error('Error fetching hours:', error)
+    } finally {
+      loading.value = false
+    }
+  }
+
+  /**
+   * Function to save hours
+   */
+  async function saveHours() {
+    loading.value = true
+
+    try {
+      await saveHoursData(
+        hours.value,
+        userId.value,
+        currentMonth.value,
+        currentYear.value
+      )
+    } catch (error) {
+      console.error('Error saving hours:', error)
+    } finally {
+      loading.value = false
+    }
+  }
+
+  /**
+   * Function to fetch user data
+   */
+  async function fetchUser() {
+    user.value = await getUser(userId.value)
   }
 
   return {
+    loading,
     current,
     currentDate,
     hours,
+    user,
     getDay,
     monthSummary,
     setCurrentMonth,
-    setCurrentYear
+    setCurrentYear,
+    fetchHours,
+    fetchUser,
+    saveHours
   }
 })

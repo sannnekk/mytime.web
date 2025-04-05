@@ -5,7 +5,8 @@ import { computed } from 'vue'
  * Props
  */
 const props = defineProps({
-  modelValue: Boolean
+  modelValue: Boolean,
+  disabled: Boolean
 })
 
 /**
@@ -25,12 +26,13 @@ const switchState = computed({
 <template>
   <label
     class="switch"
-    :class="{ on: switchState, off: !switchState }"
+    :class="{ on: switchState, off: !switchState, disabled: props.disabled }"
   >
     <div class="switch__button"></div>
     <input
       type="checkbox"
       v-model="switchState"
+      :disabled="props.disabled"
     />
   </label>
 </template>
@@ -44,6 +46,9 @@ const switchState = computed({
   border-radius: 1em;
   background-color: var(--text-light);
   cursor: pointer;
+}
+.switch.disabled {
+  cursor: not-allowed;
 }
 .switch.on {
   background-color: var(--accent);

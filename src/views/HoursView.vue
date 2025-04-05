@@ -5,8 +5,22 @@ import theTimeForm from '../components/layout/the-time-form.vue'
 import theProjectTable from '../components/layout/the-project-table.vue'
 import monthSummary from '../components/layout/month-summary.vue'
 import { useTimeStore } from '../stores/hours'
+import { useUserStore } from '../stores/user'
+import { useRoute } from 'vue-router'
+import { watch } from 'vue'
 
+const userStore = useUserStore()
 const timeStore = useTimeStore()
+const route = useRoute()
+
+watch(
+  () => route.params.id,
+  async () => {
+    await timeStore.fetchHours()
+    await timeStore.fetchUser()
+  },
+  { immediate: true }
+)
 </script>
 
 <template>
@@ -25,8 +39,14 @@ const timeStore = useTimeStore()
         <month-summary :value="timeStore.monthSummary" />
       </div>
       <div class="form">
-        <the-time-form v-model="timeStore.current" />
-        <the-project-table v-model="timeStore.current.projects" />
+        <the-time-form
+          v-model="timeStore.current"
+          :readonly="userStore.user?.role === 'admin'"
+        />
+        <the-project-table
+          v-model="timeStore.current.projects"
+          :readonly="userStore.user?.role === 'admin'"
+        />
       </div>
     </main>
   </div>
